@@ -2,8 +2,8 @@
 using namespace mli;
 int main()
 {
-    mylonginteger *a=new mylonginteger;
-    a->read_longinteger();
-    a->write_longinteger();
-    delete a;
+    mylonginteger a;
+    a.read_longinteger();
+    mylonginteger b;
+    b=a;
 }

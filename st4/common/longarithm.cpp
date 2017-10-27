@@ -1,6 +1,23 @@
 #include "longarithm.hpp"
 //#define DEBUG
 using st=std::size_t;
+/*void skip_zeros(char* str)
+{
+    int zeros_value;
+    st len=std::strlen(str);
+    if(str[0]=='0')
+    {
+        zeros_value++;
+    }
+    for(st i=1;st<len;st++)
+    {
+        if(str[i]=='0') zeros_value++;
+        else break;
+    }
+
+    else return;
+}
+*/
 char* get_string()
     {
         constexpr std::size_t initial_size = 4;
@@ -82,6 +99,7 @@ namespace mli
     }
     mylonginteger& mylonginteger::operator = (const mylonginteger& right)
     {
+        std::cout<<"called lvalue\n";
         if(this==&right) return *this;
         n=right.n;
         capacity=right.capacity;
@@ -93,6 +111,7 @@ namespace mli
     }
     mylonginteger& mylonginteger::operator = (mylonginteger&& right)
     {
+        std::cout << "called rvalue\n";
         if(this==&right) return *this;
         n=right.n;
         capacity=right.capacity;
