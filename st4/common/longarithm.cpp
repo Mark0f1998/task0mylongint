@@ -101,12 +101,12 @@ namespace mli
         right.capacity=0;
         right.p=nullptr;
     }
-    mylonginteger mylonginteger::operator +=(const mylonginteger& right)
+    /*mylonginteger mylonginteger::operator +=(const mylonginteger& right)
     {
         std::size_t ln=n;
         std::size_t rn=right.n;
     }
-
+*/
     mylonginteger::~mylonginteger()
     {
         delete [] p;
