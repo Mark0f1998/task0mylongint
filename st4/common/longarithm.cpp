@@ -56,23 +56,23 @@ namespace mli
         capacity=n+1;
     }
     mylonginteger::mylonginteger(const mylonginteger& right)
-    \:
+    :
      mylonginteger()
     {
         p=new char[right.capacity];
         if(this==&right) return;
         n=right.n;
         capacity=right.capacity;
-        for(int i=0;i<n;i++)
+        for(std::size_t i=0;i<n;i++)
         {
-            p[i]=right[i];
+            p[i]=right.p[i];
         }
     }
     mylonginteger::mylonginteger(mylonginteger&& right)
         :
              mylonginteger()
     {
-        if(this==right) return;
+        if(this==&right) return;
         n=right.n;
         capacity=right.capacity;
         p=right.p;
@@ -82,12 +82,12 @@ namespace mli
     }
     mylonginteger& mylonginteger::operator = (const mylonginteger& right)
     {
-        if(this=&right) return *this;
+        if(this==&right) return *this;
         n=right.n;
         capacity=right.capacity;
-        for(int i=0;i<n;i++)
+        for(std::size_t i=0;i<n;i++)
         {
-            p[i]=right[i];
+            p[i]=right.p[i];
         }
         return *this;
     }
@@ -100,6 +100,7 @@ namespace mli
         right.n=0;
         right.capacity=0;
         right.p=nullptr;
+        return *this;
     }
     /*mylonginteger mylonginteger::operator +=(const mylonginteger& right)
     {
@@ -123,14 +124,14 @@ namespace mli
     }
     bool mylonginteger::IsEqual(const mylonginteger *right)
     {
-        if (n!=right->get_n()) return false;
+        if (n!=right->n) return false;
         for(std::size_t i=0;i<n;i++)
         {
-            if(p[i]!=right[i]) return false;
+            if(p[i]!=right->p[i]) return false;
         }
         return true;
     }
-    int mylonginteger::read_longinteger()
+    void mylonginteger::read_longinteger()
     {
         char* inp=get_string();
         std::size_t length=std::strlen(inp);
@@ -143,7 +144,7 @@ namespace mli
             }
             for(std::size_t j=capacity-length;j<capacity;j++)
             {
-                p[i]=inp[j-(capacity-length)];
+                p[j]=inp[j-(capacity-length)];
             }
         }
         else
@@ -157,6 +158,6 @@ namespace mli
                 p[i]=inp[i];
             }
         }
-        delete [] input;
+        delete [] inp;
     }
 }

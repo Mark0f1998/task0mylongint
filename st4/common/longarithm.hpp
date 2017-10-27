@@ -27,7 +27,12 @@ namespace mli
         void write_longinteger();
         bool IsEqual(const mylonginteger* right);// compares two mylongintegers NEEED TO FIXXXXX WITH [] PRIVATE
         void summ(mylonginteger* right);
-        int read_longinteger();
+        void read_longinteger();
+        mylonginteger(const mylonginteger& right);
+        mylonginteger(mylonginteger&& right);
+        mylonginteger& operator = (const mylonginteger& right);
+        mylonginteger& operator = (mylonginteger&& right);
+
     };
 }
 #endif // LONGARITHM_HPP
