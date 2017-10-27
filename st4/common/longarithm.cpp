@@ -1,23 +1,29 @@
 #include "longarithm.hpp"
 //#define DEBUG
 using st=std::size_t;
-/*void skip_zeros(char* str)
+char* skip_zeros(char* str)
 {
-    int zeros_value;
+    int zeros_value=0;
     st len=std::strlen(str);
     if(str[0]=='0')
     {
         zeros_value++;
     }
-    for(st i=1;st<len;st++)
+    else return str;
+    for(st i=1;i<len;i++)
     {
         if(str[i]=='0') zeros_value++;
         else break;
     }
-
-    else return;
+    char* without_zeros=new char[len-zeros_value+1];
+    for(st i=0;i<len-zeros_value;i++)
+    {
+        without_zeros[i]=str[i+zeros_value];
+    }
+    without_zeros[len-zeros_value]='\0';
+    return without_zeros;
 }
-*/
+
 char* get_string()
     {
         constexpr std::size_t initial_size = 4;
@@ -125,8 +131,9 @@ namespace mli
     {
         std::size_t ln=n;
         std::size_t rn=right.n;
-    }
-*/
+
+    }*/
+
     mylonginteger::~mylonginteger()
     {
         delete [] p;
@@ -135,28 +142,32 @@ namespace mli
     }
     void mylonginteger::write_longinteger()
     {
+        char *new_p=skip_zeros(p);
         for(std::size_t i =0;i<n;i++)
         {
-            std::cout<<p[i];
+            std::cout<<new_p[i];
         }
         std::cout<<'\n';
     }
     bool mylonginteger::IsEqual(const mylonginteger *right)
     {
-        if (n!=right->n) return false;
+        if (n!=right->n) { std::cout<<"Not Equal\n"; return false; }
+
         for(std::size_t i=0;i<n;i++)
         {
-            if(p[i]!=right->p[i]) return false;
+            if(p[i]!=right->p[i]) { std::cout<<"Not Equal\n"; return false; }
         }
+        std::cout <<"Equal\n";
         return true;
     }
     void mylonginteger::read_longinteger()
     {
         char* inp=get_string();
+        inp=skip_zeros(inp);
         std::size_t length=std::strlen(inp);
         if(length<=capacity)
         {
-            n=capacity;
+            n=length;
             for(std::size_t i=0;i<capacity-length;i++)
             {
                 p[i]='0';

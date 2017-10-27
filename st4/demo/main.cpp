@@ -3,7 +3,12 @@ using namespace mli;
 int main()
 {
     mylonginteger a;
-    a.read_longinteger();
-    mylonginteger b;
-    b=a;
+    for(int i=0;i<5;i++)
+    {
+        std::cout<<"enter new longint\n";
+        a.read_longinteger();
+        std::cout<<"a= ";
+        a.write_longinteger();
+        std::cout<<'\n';
+    }
 }
