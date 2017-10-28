@@ -3,7 +3,10 @@
 using st=std::size_t;
 char* skip_zeros(char* str)
 {
-    int zeros_value=0;
+    char* wtf=new char[2];
+    wtf[0]='0';
+    wtf[1]='\0';
+    st zeros_value=0;
     st len=std::strlen(str);
     if(str[0]=='0')
     {
@@ -21,6 +24,8 @@ char* skip_zeros(char* str)
         without_zeros[i]=str[i+zeros_value];
     }
     without_zeros[len-zeros_value]='\0';
+    if(zeros_value==len) { delete [] without_zeros; return wtf; }
+    delete [] wtf;
     return without_zeros;
 }
 
@@ -64,11 +69,9 @@ namespace mli
 {
     mylonginteger::mylonginteger()
     {
-        n=1;
-        capacity=2;
-        p=new char[2];
-        p[0]='0';
-        p[1]='\n';
+        n=0;
+        capacity=0;
+        p=nullptr;
     }
     mylonginteger::mylonginteger(const char* str)
     {
@@ -127,12 +130,95 @@ namespace mli
         right.p=nullptr;
         return *this;
     }
-    /*mylonginteger mylonginteger::operator +=(const mylonginteger& right)
+    void mylonginteger::operator +=(const mylonginteger& right)
     {
         std::size_t ln=n;
+        int ost=0;
         std::size_t rn=right.n;
+        std::size_t maxlen=std::max(ln,rn);
+        if(capacity>=maxlen+1)
+        {          
+            std::cout<<"case 1\n";
+                for(st i=1;i<=rn;i++)
+                {
+                    p[capacity-i-1]+=right.p[rn-i]-48+ost;
+                    if(p[capacity-i-1]>=58)
+                    {
+                        ost=1;
+                        p[capacity-i-1]-=10;
+                    }
+                    else ost=0;
+                }
+                for(st i=rn+1;i<=ln;i++)
+                {
 
-    }*/
+                    p[capacity-i-1]=p[capacity-i-1]+ost;
+                    if(p[capacity-i-1]>=58)
+                    {
+                        ost=1;
+                        p[capacity-i-1]=p[capacity-i-1]-10;
+                    }
+                    else ost=0;
+                }
+                if(ost==1)
+                {
+                    char* buf=new char[capacity+1];
+                    buf[0]='0';
+                    buf[1]='1';
+                    for(st i=2;i<capacity+1;i++)
+                    {
+                        buf[i]=p[i-2];
+                    }
+                    delete [] p;
+                    p=new char[capacity+1];
+                    for(st i=0;i<capacity+1;i++)
+                    {
+                        p[i]=buf[i];
+                    }
+                    capacity++;
+                    delete [] buf;
+                }     \
+        }
+        else if(capacity<maxlen+1)
+        {
+            ost=0;
+            std::cout<<"case 2\n";
+            int j=0;
+            char* buf=new char[rn+1];
+            capacity=rn+1;
+            for(st i=0;i<=rn-ln;i++)
+            {
+                buf[i]='0';
+            }
+            for(st i=rn-ln+1;i<rn+1;i++)
+            {
+                buf[i]=p[j];
+                j++;
+            }
+            delete [] p;
+            p=new char[rn+1];
+            for(st i=0;i<rn+1;i++)
+            {
+                p[i]=buf[i];
+            }
+            delete [] buf;
+            for(st i=0;i<rn+1;i++)
+            {
+                p[rn+1-i]+=right.p[rn-i]-48+ost;
+                if(p[capacity-i]>=58)
+                {
+                    p[capacity-i]-=10;
+                    ost=1;
+                }
+                else ost=0;
+            }
+            if(ost)
+                p[0]='1';
+            else
+                p[0]='0';
+            p[rn+1]='\0';
+        }
+    }
 
     mylonginteger::~mylonginteger()
     {
@@ -143,10 +229,11 @@ namespace mli
     void mylonginteger::write_longinteger()
     {
         char *new_p=skip_zeros(p);
-        for(std::size_t i =0;i<n;i++)
+        for(std::size_t i =0;i<capacity;i++)
         {
             std::cout<<new_p[i];
         }
+        delete [] new_p;
         std::cout<<'\n';
     }
     bool mylonginteger::IsEqual(const mylonginteger *right)
@@ -168,6 +255,7 @@ namespace mli
         if(length<=capacity)
         {
             n=length;
+            //capacity=n+1;
             for(std::size_t i=0;i<capacity-length;i++)
             {
                 p[i]='0';

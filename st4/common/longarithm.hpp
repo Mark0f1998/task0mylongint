@@ -32,6 +32,7 @@ namespace mli
         mylonginteger(mylonginteger&& right);
         mylonginteger& operator = (const mylonginteger& right);
         mylonginteger& operator = (mylonginteger&& right);
+        void operator +=(const mylonginteger& right);
 
     };
 }
