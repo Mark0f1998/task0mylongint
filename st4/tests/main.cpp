@@ -1,76 +1,59 @@
 #include "../common/longarithm.hpp"
+using namespace mli;
 int main()
 {
     //test 1
     {
-        mli::mylonginteger* a=mli::init();
-        mli::mylonginteger* b=mli::init("0");
-        //mli::write_longinteger(a);
-        assert(mli::IsEqual(a,b));
-        std::cout<<"test №1 completed\n";
-        mli::destroy(a);
-        mli::destroy(b);
+        mylonginteger a("000000");
+        mylonginteger b("00");
+        assert(a.IsEqual(&b));
     }
 
     //test 2
     {
-        mli::mylonginteger* a=mli::init("0000000000123");
-        mli::mylonginteger* b=mli::init("123");
-        assert(mli::IsEqual(a,b));
-        std::cout<<"test №2 completed\n";
-        mli::destroy(a);
-        mli::destroy(b);
+        mylonginteger a("000000123");
+        mylonginteger b("123");
+        assert(a.IsEqual(&b));
     }
 
     //test 3
     {
-        mli::mylonginteger* a=mli::init("123");
-        mli::mylonginteger* b=mli::init("00");
-        mli::mylonginteger* c=mli::init("123");
-        mli::summ(a,b);
-        assert(mli::IsEqual(a,c));
-        std::cout<<"test №3 completed\n";
-        mli::destroy(a);
-        mli::destroy(b);
-        mli::destroy(c);
+        mylonginteger a("123");
+        mylonginteger b("00");
+        mylonginteger c("123");
+        a+=b;
+        assert(a.IsEqual(&c));
     }
 
     //test 4
     {
-        mli::mylonginteger* a=mli::init("90");
-        mli::mylonginteger* b=mli::init("33");
-        mli::mylonginteger* c=mli::init("123");
-        mli::summ(a,b);
-        assert(mli::IsEqual(a,c));
-        std::cout<<"test №4 completed\n";
-        mli::destroy(a);
-        mli::destroy(b);
-        mli::destroy(c);
+        mylonginteger a("93");
+        mylonginteger b("100");
+        mylonginteger c("193");
+        a+=b;
+        assert(a.IsEqual(&c));
     }
 
     //test 5
     {
-        mli::mylonginteger* a=mli::init("999");
-        mli::mylonginteger* b=mli::init("33");
-        mli::mylonginteger* c=mli::init("1032");
-        mli::summ(a,b);
-        assert(mli::IsEqual(a,c));
-        std::cout<<"test №5 completed\n";
-        mli::destroy(a);
-        mli::destroy(b);
-        mli::destroy(c);
+        mylonginteger a("999");
+        mylonginteger b("33");
+        mylonginteger c("1032");
+        a+=b;
+        assert(a.IsEqual(&c));
     }
 
     //test 6
     {
-        mli::mylonginteger* a=mli::init("99");
-        mli::mylonginteger* b=mli::init("999");
-        mli::mylonginteger* c=mli::init("1098");
-        mli::summ(a,b);
-        assert(mli::IsEqual(a,c));
-        std::cout<<"test №6 completed\n";
-        mli::destroy(a);
-        mli::destroy(b);
-        mli::destroy(c);
+        mylonginteger a("999");
+        mylonginteger b("999");
+        mylonginteger c("1998");
+        a+=b;
+        assert(a.IsEqual(&c));
     }
 }
+    /*mylonginteger a("0000123");
+    mylonginteger b("123");
+    a.write_longinteger();
+    b.write_longinteger();
+}*/

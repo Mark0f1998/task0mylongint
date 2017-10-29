@@ -12,7 +12,11 @@ char* skip_zeros(char* str)
     {
         zeros_value++;
     }
-    else return str;
+    else
+    {
+        delete [] wtf;
+        return str;
+    }
     for(st i=1;i<len;i++)
     {
         if(str[i]=='0') zeros_value++;
@@ -77,7 +81,10 @@ namespace mli
     {
         std::size_t len=std::strlen(str);
         p=new char[len];
-        std::strcpy(p,str);
+        for(st i=0;i<=len;i++)
+        {
+            p[i]=str[i];
+        }
         n=len;
         capacity=n+1;
     }
@@ -138,7 +145,6 @@ namespace mli
         std::size_t maxlen=std::max(ln,rn);
         if(capacity>=maxlen+1)
         {          
-            std::cout<<"case 1\n";
                 for(st i=1;i<=rn;i++)
                 {
                     p[capacity-i-1]+=right.p[rn-i]-48+ost;
@@ -182,7 +188,6 @@ namespace mli
         else if(capacity<maxlen+1)
         {
             ost=0;
-            std::cout<<"case 2\n";
             int j=0;
             char* buf=new char[rn+1];
             capacity=rn+1;
@@ -233,19 +238,15 @@ namespace mli
         {
             std::cout<<new_p[i];
         }
-        delete [] new_p;
+        if(new_p!=nullptr&&new_p!=p) delete [] new_p;
         std::cout<<'\n';
     }
     bool mylonginteger::IsEqual(const mylonginteger *right)
     {
-        if (n!=right->n) { std::cout<<"Not Equal\n"; return false; }
-
-        for(std::size_t i=0;i<n;i++)
-        {
-            if(p[i]!=right->p[i]) { std::cout<<"Not Equal\n"; return false; }
-        }
-        std::cout <<"Equal\n";
-        return true;
+        char* a=skip_zeros(p);
+        char* b=skip_zeros(right->p);
+        if(std::strcmp(a,b)) return false;
+        else return true;
     }
     void mylonginteger::read_longinteger()
     {
