@@ -2,19 +2,16 @@
 using namespace mli;
 int main()
 {
-    mylonginteger a("00000123");
-    a.write_longinteger();
-    mylonginteger b("214");
-    b.write_longinteger();
-}
-/*
-  mylonginteger a,b;
+    mylonginteger a,b;
     a.read_longinteger();
     while(true)
     {
         std::cout<<"current summ= ";
         a.write_longinteger();
+        std::cout<<"\nenter next longinteger\n";
         b.read_longinteger();
         a+=b;
     }
-    */
+
+}
+

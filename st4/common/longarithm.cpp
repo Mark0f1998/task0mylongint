@@ -86,7 +86,7 @@ namespace mli
             p[i]=str[i];
         }
         n=len;
-        capacity=n+1;
+        capacity=n;
     }
     mylonginteger::mylonginteger(const mylonginteger& right)
     :
@@ -139,59 +139,68 @@ namespace mli
     }
     void mylonginteger::operator +=(const mylonginteger& right)
     {
-        std::size_t ln=n;
+        st ln=n;
         int ost=0;
-        std::size_t rn=right.n;
-        std::size_t maxlen=std::max(ln,rn);
-        if(capacity>=maxlen+1)
-        {          
-                for(st i=1;i<=rn;i++)
-                {
-                    p[capacity-i-1]+=right.p[rn-i]-48+ost;
-                    if(p[capacity-i-1]>=58)
-                    {
-                        ost=1;
-                        p[capacity-i-1]-=10;
-                    }
-                    else ost=0;
-                }
-                for(st i=rn+1;i<=ln;i++)
-                {
-
-                    p[capacity-i-1]=p[capacity-i-1]+ost;
-                    if(p[capacity-i-1]>=58)
-                    {
-                        ost=1;
-                        p[capacity-i-1]=p[capacity-i-1]-10;
-                    }
-                    else ost=0;
-                }
-                if(ost==1)
-                {
-                    char* buf=new char[capacity+1];
-                    buf[0]='0';
-                    buf[1]='1';
-                    for(st i=2;i<capacity+1;i++)
-                    {
-                        buf[i]=p[i-2];
-                    }
-                    delete [] p;
-                    p=new char[capacity+1];
-                    for(st i=0;i<capacity+1;i++)
-                    {
-                        p[i]=buf[i];
-                    }
-                    capacity++;
-                    delete [] buf;
-                }     \
-        }
-        else if(capacity<maxlen+1)
+        st rn=right.n;
+        if(rn<=ln)
         {
-            ost=0;
+            for(st i=1;i<rn+1;i++)
+            {
+                p[ln-i]+=right.p[rn-i]+ost-48;
+                if(p[ln-i]>=58)
+                {
+                    ost=1;
+                    p[ln-i]-=10;
+                }
+                else
+                {
+                    ost=0;
+                }
+            }
+            for(st i=rn+1;i<=ln;i++)
+            {
+                p[ln-i]+=ost;
+                if(p[ln-i]>=58)
+                {
+                    ost=1;
+                    p[ln-i]-=10;
+                }
+                else
+                {
+                    ost=0;
+                }
+            }
+            if(ost)
+            {
+                if(capacity!=n)
+                {
+                    for(st i=n+1;i>0;i--)
+                        p[i]=p[i-1];
+                    p[0]='1';
+                    n++;
+                }
+                else
+                {
+                    capacity++;
+                    n++;
+                    char* buf=new char[n];
+                    buf[0]='1';
+                    for(st i=1;i<n;i++)
+                        buf[i]=p[i-1];
+                    delete [] p;
+                    p=new char[n];
+                    for(st i=0;i<n;i++)
+                        p[i]=buf[i];
+                    delete [] buf;
+                }
+            }
+        }
+        else
+        {
             int j=0;
+            ost=0;
             char* buf=new char[rn+1];
-            capacity=rn+1;
-            for(st i=0;i<=rn-ln;i++)
+            for(st i=0;i<rn-ln+1;i++)
             {
                 buf[i]='0';
             }
@@ -200,28 +209,41 @@ namespace mli
                 buf[i]=p[j];
                 j++;
             }
-            delete [] p;
-            p=new char[rn+1];
-            for(st i=0;i<rn+1;i++)
+            for(st i=0;i<rn;i++)
             {
-                p[i]=buf[i];
-            }
-            delete [] buf;
-            for(st i=0;i<rn+1;i++)
-            {
-                p[rn+1-i]+=right.p[rn-i]-48+ost;
-                if(p[capacity-i]>=58)
+                buf[rn-i]+=right.p[rn-i-1]+ost-48;
+                if(buf[rn-i]>=58)
                 {
-                    p[capacity-i]-=10;
                     ost=1;
+                    buf[rn-i]-=10;
                 }
                 else ost=0;
             }
+
             if(ost)
-                p[0]='1';
+            {
+                buf[0]='1';
+                n++;
+                capacity++;
+                delete [] p;
+                p=new char[rn+1];
+                for(st i=0;i<rn+1;i++)
+                    p[i]=buf[i];
+                delete [] buf;
+            }
             else
-                p[0]='0';
-            p[rn+1]='\0';
+            {
+                delete [] p;
+                p=new char[rn];
+                n=rn;
+                capacity=rn;
+                for(st i=1;i<rn+1;i++)
+                {
+                    p[i-1]=buf[i];
+                }
+                delete [] buf;
+            }
+
         }
     }
 
@@ -234,7 +256,7 @@ namespace mli
     void mylonginteger::write_longinteger()
     {
         char *new_p=skip_zeros(p);
-        for(std::size_t i =0;i<capacity;i++)
+        for(std::size_t i =0;i<n;i++)
         {
             std::cout<<new_p[i];
         }
@@ -256,26 +278,21 @@ namespace mli
         if(length<=capacity)
         {
             n=length;
-            //capacity=n+1;
-            for(std::size_t i=0;i<capacity-length;i++)
-            {
-                p[i]='0';
-            }
-            for(std::size_t j=capacity-length;j<capacity;j++)
-            {
-                p[j]=inp[j-(capacity-length)];
-            }
+            for(st i=0;i<n;i++)
+                p[i]=inp[i];
+            p[n+1]='\0';
         }
         else
         {
             delete [] p;
-            p= new char[length+1];
-            capacity=length+1;
+            p= new char[length];
+            capacity=length;
             n=length;
             for(std::size_t i=0;i<n;i++)
             {
                 p[i]=inp[i];
             }
+            p[n+1]='\0';
         }
         delete [] inp;
     }
