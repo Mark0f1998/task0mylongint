@@ -72,40 +72,38 @@ char* get_string()
 namespace mli 
 {
     mylonginteger::mylonginteger()
-    {
-        n=0;
-        capacity=0;
-        p=nullptr;
-    }
+        :n(0),
+         capacity(0),
+         p(nullptr)
+    {}
+
+
     mylonginteger::mylonginteger(const char* str)
     {
         std::size_t len=std::strlen(str);
-        p=new char[len];
-        for(st i=0;i<=len;i++)
+        p=new char[len+1];
+        std::memcpy(p,str,len+1);
+        p[len]='\0';
+        /*for(st i=0;i<=len;i++)
         {
             p[i]=str[i];
-        }
+        }*/
         n=len;
         capacity=n;
     }
     mylonginteger::mylonginteger(const mylonginteger& right)
-    :
-     mylonginteger()
     {
         p=new char[right.capacity];
-        if(this==&right) return;
         n=right.n;
         capacity=right.capacity;
-        for(std::size_t i=0;i<n;i++)
+        /*for(std::size_t i=0;i<n;i++)
         {
             p[i]=right.p[i];
-        }
+        }*/
+        std::memcpy(p,right.p,n);
     }
     mylonginteger::mylonginteger(mylonginteger&& right)
-        :
-             mylonginteger()
     {
-        if(this==&right) return;
         n=right.n;
         capacity=right.capacity;
         p=right.p;
@@ -115,22 +113,27 @@ namespace mli
     }
     mylonginteger& mylonginteger::operator = (const mylonginteger& right)
     {
-        std::cout<<"called lvalue\n";
         if(this==&right) return *this;
         n=right.n;
+        if(capacity<right.n)
+        {
+            delete [] p;
+            p=new char[right.n+1];
+        }
         capacity=right.capacity;
-        for(std::size_t i=0;i<n;i++)
+        /*for(std::size_t i=0;i<n;i++)
         {
             p[i]=right.p[i];
-        }
+        }*/
+        std::memcpy(p,right.p,n);
         return *this;
     }
     mylonginteger& mylonginteger::operator = (mylonginteger&& right)
     {
-        std::cout << "called rvalue\n";
         if(this==&right) return *this;
         n=right.n;
         capacity=right.capacity;
+        delete [] p;
         p=right.p;
         right.n=0;
         right.capacity=0;
@@ -250,8 +253,6 @@ namespace mli
     mylonginteger::~mylonginteger()
     {
         delete [] p;
-        n=0;
-        capacity=0;
     }
     void mylonginteger::write_longinteger()
     {
@@ -265,34 +266,32 @@ namespace mli
     }
     bool mylonginteger::IsEqual(const mylonginteger *right)
     {
-        char* a=skip_zeros(p);
-        char* b=skip_zeros(right->p);
-        if(std::strcmp(a,b)) return false;
-        else return true;
+
+        return !std::strcmp(p,right->p);
     }
     void mylonginteger::read_longinteger()
     {
         char* inp=get_string();
         inp=skip_zeros(inp);
         std::size_t length=std::strlen(inp);
-        if(length<=capacity)
+        if(length<capacity)
         {
             n=length;
             for(st i=0;i<n;i++)
                 p[i]=inp[i];
-            p[n+1]='\0';
+            p[n]='\0';
         }
         else
         {
             delete [] p;
-            p= new char[length];
-            capacity=length;
+            p= new char[length+1];
+            capacity=length+1;
             n=length;
             for(std::size_t i=0;i<n;i++)
             {
                 p[i]=inp[i];
             }
-            p[n+1]='\0';
+            p[n]='\0';
         }
         delete [] inp;
     }
