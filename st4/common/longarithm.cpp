@@ -113,7 +113,6 @@ namespace mli
     }
     mylonginteger& mylonginteger::operator = (const mylonginteger& right)
     {
-        if(this==&right) return *this;
         n=right.n;
         if(capacity<right.n)
         {
@@ -254,7 +253,7 @@ namespace mli
     {
         delete [] p;
     }
-    void mylonginteger::write_longinteger()
+    /*void mylonginteger::write_longinteger()
     {
         char *new_p=skip_zeros(p);
         for(std::size_t i =0;i<n;i++)
@@ -263,7 +262,7 @@ namespace mli
         }
         if(new_p!=nullptr&&new_p!=p) delete [] new_p;
         std::cout<<'\n';
-    }
+    }*/
     bool mylonginteger::IsEqual(const mylonginteger *right)
     {
 
@@ -294,5 +293,47 @@ namespace mli
             p[n]='\0';
         }
         delete [] inp;
+    }
+    /*std::istream& operator >> (std::istream& is, mylonginteger& mli)
+    {
+        char* inp=get_string();
+        inp=skip_zeros(inp);
+        std::size_t length=std::strlen(inp);
+        if(length<mli.capacity)
+        {
+            mli.n=length;
+            for(st i=0;i<mli.n;i++)
+                mli.p[i]=inp[i];
+            mli.p[mli.n]='\0';
+        }
+        else
+        {
+            delete [] mli.p;
+            mli.p= new char[length+1];
+            mli.capacity=length+1;
+            mli.n=length;
+            for(std::size_t i=0;i<mli.n;i++)
+            {
+                mli.p[i]=inp[i];
+            }
+            mli.p[n]='\0';
+        }
+        delete [] inp;
+        return is;
+    }*/
+
+    char& mylonginteger::operator [](int i) const
+    {
+        return p[i];
+    }
+
+    std::ostream& operator <<(std::ostream& os, const mylonginteger& mli)
+    {
+        for(st i=0;i<mli.n;i++)
+        {
+            os<<mli.p[i];
+        }
+        std::cout<<'\n';
+        return os;
     }
 }

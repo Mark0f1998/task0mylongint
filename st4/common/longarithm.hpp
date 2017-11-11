@@ -13,11 +13,11 @@ namespace mli
         char* p;
         std::size_t n,capacity;
     public:
-        std::size_t get_n()
+        std::size_t get_n() const
         {
             return n;
         }
-        std::size_t get_capacity()
+        std::size_t get_capacity() const
         {
             return capacity;
         }
@@ -33,7 +33,9 @@ namespace mli
         mylonginteger& operator = (const mylonginteger& right);
         mylonginteger& operator = (mylonginteger&& right);
         void operator +=(const mylonginteger& right);
-
+        friend std::ostream& operator << (std::ostream& os,const mylonginteger& mli);
+        friend std::ostream& operator >> (std::istream& is,const mylonginteger& mli);
+        char& operator [](int i) const;
     };
 }
 #endif // LONGARITHM_HPP
