@@ -80,6 +80,7 @@ namespace mli
 
     mylonginteger::mylonginteger(const char* str)
     {
+        //char* s=skip_zeros(str);
         std::size_t len=std::strlen(str);
         p=new char[len+1];
         std::memcpy(p,str,len+1);
@@ -263,10 +264,24 @@ namespace mli
         if(new_p!=nullptr&&new_p!=p) delete [] new_p;
         std::cout<<'\n';
     }*/
-    bool mylonginteger::IsEqual(const mylonginteger *right)
+    bool mylonginteger::IsEqual(const mylonginteger &right)
     {
-
-        return !std::strcmp(p,right->p);
+        char* ls=skip_zeros(p);
+        char* rs=skip_zeros(right.p);
+        st llen=std::strlen(ls);
+        st rlen=std::strlen(rs);
+        if(llen!=rlen) return false;
+        for(st i=0;i<llen;i++)
+        {
+            if(ls[i]!=rs[i])
+            {
+                delete [] ls;
+                delete [] rs;
+                return false;
+            }
+        }
+        return true;
+        //return !std::strcmp(p,right.p);
     }
     void mylonginteger::read_longinteger()
     {

@@ -25,7 +25,7 @@ namespace mli
         mylonginteger(const char* str);
         ~mylonginteger();
         void write_longinteger();
-        bool IsEqual(const mylonginteger* right);// compares two mylongintegers NEEED TO FIXXXXX WITH [] PRIVATE
+        bool IsEqual(const mylonginteger& right);
         void summ(mylonginteger* right);
         void read_longinteger();
         mylonginteger(const mylonginteger& right);
