@@ -24,7 +24,6 @@ namespace mli
         mylonginteger();
         mylonginteger(const char* str);
         ~mylonginteger();
-        void write_longinteger();
         bool IsEqual(const mylonginteger& right);
         void summ(mylonginteger* right);
         void read_longinteger();
@@ -34,7 +33,7 @@ namespace mli
         mylonginteger& operator = (mylonginteger&& right);
         void operator +=(const mylonginteger& right);
         friend std::ostream& operator << (std::ostream& os,const mylonginteger& mli);
-        friend std::ostream& operator >> (std::istream& is,const mylonginteger& mli);
+        friend std::istream& operator >> (std::istream& is,const mylonginteger& mli);
         char& operator [](int i) const;
     };
 }

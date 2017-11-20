@@ -3,36 +3,12 @@
 using st=std::size_t;
 char* skip_zeros(char* str)
 {
-    char* wtf=new char[2];
-    wtf[0]='0';
-    wtf[1]='\0';
-    st zeros_value=0;
-    st len=std::strlen(str);
-    if(str[0]=='0')
+    while(*str=='0')
     {
-        zeros_value++;
+        str++;
     }
-    else
-    {
-        delete [] wtf;
-        return str;
-    }
-    for(st i=1;i<len;i++)
-    {
-        if(str[i]=='0') zeros_value++;
-        else break;
-    }
-    char* without_zeros=new char[len-zeros_value+1];
-    for(st i=0;i<len-zeros_value;i++)
-    {
-        without_zeros[i]=str[i+zeros_value];
-    }
-    without_zeros[len-zeros_value]='\0';
-    if(zeros_value==len) { delete [] without_zeros; return wtf; }
-    delete [] wtf;
-    return without_zeros;
+    return str;
 }
-
 char* get_string()
     {
         constexpr std::size_t initial_size = 4;
@@ -280,6 +256,8 @@ namespace mli
                 return false;
             }
         }
+        delete [] ls;
+        delete [] rs;
         return true;
         //return !std::strcmp(p,right.p);
     }
@@ -307,7 +285,7 @@ namespace mli
             }
             p[n]='\0';
         }
-        delete [] inp;
+        //delete [] inp;
     }
     /*std::istream& operator >> (std::istream& is, mylonginteger& mli)
     {
